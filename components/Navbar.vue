@@ -24,8 +24,15 @@
 </template>
 
 <script>
+/*import Task from '@/models/Task'*/
 
 export default {
-  
+  methods: {
+    /*
+    logout () {
+      this.$auth.logout()
+        .then(() => Task.deleteAll())
+    }*/
+  }
 }
 </script>
