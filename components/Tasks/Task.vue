@@ -1,7 +1,8 @@
 <template>
   <div>  
     <li v-on-clickaway="handleClickAway" class="my-4">
-      <task-form v-if="editTask" ref="taskForm" :form="form" :error="error" @submit="updateTask">
+      <task-form v-if="editTask" ref="taskForm" :form="form" :error="error">
+      <!--<task-form v-if="editTask" ref="taskForm" :form="form" :error="error" @submit="updateTask">-->
         <div class="flex items-center justify-start mt-2">
           <div class="flex items-center">
             <loading-button
@@ -16,7 +17,7 @@
               :class="{'opacity-50 cursor-not-allowed' : isDisabled}"
               icon="edit"
               class="btn-indigo-light text-sm mx-2"
-              @click.prevent="onToggle">Edit
+              @click.native="onToggle">Edit
             </loading-button>
             <span class="ml-4 mx-4 text-gray-800 text-sm cursor-pointer hover:underline" @click="cancelEdit">
               Cancel
@@ -54,7 +55,7 @@
     </li>
     <transition name="fade">
       <div v-if="isModalVisible">
-        <div @click="onToggle" class="absolute bg-black opacity-70 inset-0 z-0"></div>
+        <div @click="onToggle" class="absolute opacity-70 inset-0 z-0"></div>
           <div class="w-full max-w-lg p-3 relative mx-auto my-auto rounded-xl shadow-lg bg-white">
             <div>
               <div class="text-center p-3 flex-auto justify-center leading-6">
