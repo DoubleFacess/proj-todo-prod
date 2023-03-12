@@ -74,18 +74,22 @@
     </div>
   </div>
 </template>
+
 <script>
+
 import { mapGetters } from 'vuex'
+
 import Task from '@/components/Tasks/Task'
 import NewTask from '@/components/Tasks/NewTask'
 import LoadingButton from '@/components/LoadingButton'
+
 /*import TaskModel from '@/models/Task'*/
 
 export default {
     components: {
       Task,
       NewTask,
-      LoadingButton
+      LoadingButton      
     },
     data () {
       return {
@@ -139,6 +143,7 @@ export default {
         }
       },
       status () {
+        console.log(this.$route.params.status)
         return this.$route.params.status || 'all'
       },
       timeToChill () {

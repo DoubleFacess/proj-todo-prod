@@ -1,9 +1,7 @@
 <template>
   <div class="my-4">
     <form @submit.prevent="$emit('submit')">
-      <form-error :error="error" />
-
-      <div class="p-3 mb-4 appearance-none bg-white rounded-lg flex flex-col shadow">
+      <form-error :error="error" />      <div class="p-3 mb-4 appearance-none bg-white rounded-lg flex flex-col shadow">
         <input ref="task" v-model="form.title" v-focus class="w-full mb-2 pt-1 pb-2 px-2 focus:outline-none font-semibold border-b" placeholder="What needs to be done?" @keyup.esc="cancel">
         <div class="flex items-center text-xs">
           <fa :icon="['far', 'clock']" class="mr-1 text-gray-600" />

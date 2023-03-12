@@ -14,7 +14,8 @@
             Profile
           </nuxt-link>
 
-          <button class="text-gray-400 ml-4 border border-white py-2 px-4 rounded hover:bg-white hover:text-indigo-500" @click="logout">
+          <button class="text-gray-400 ml-4 border border-white py-2 px-4 rounded hover:bg-white hover:text-indigo-500">
+          <!--<button class="text-gray-400 ml-4 border border-white py-2 px-4 rounded hover:bg-white hover:text-indigo-500" @click="logout">-->
             Logout
           </button>
         </div>
