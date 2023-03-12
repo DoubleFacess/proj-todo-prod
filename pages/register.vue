@@ -7,7 +7,8 @@
         </nuxt-link>
       </h1>
 
-      <form class="form-card" @submit.prevent="register" @keydown="form.errors.clear($event.target.name)">
+      <form class="form-card" @keydown="form.errors.clear($event.target.name)">
+      <!--<form class="form-card" @submit.prevent="register" @keydown="form.errors.clear($event.target.name)">-->
         <div class="mb-4">
           <label class="block text-gray-800 text-sm font-bold mb-2" for="name">
             Descrizione
@@ -35,7 +36,7 @@
             Chiave sessione
           </label>
 
-          <input id="keySession" v-model="form.ticket" class="form-control" :class="{ 'border-red-500 mb-3' : form.errors.has('keySession') }" name="ticket" placeholder="keySession">
+          <input id="keySession" v-model="form.keySession" class="form-control" :class="{ 'border-red-500 mb-3' : form.errors.has('keySession') }" name="ticket" placeholder="keySession">
           <p v-if="form.errors.has('keySession')" class="text-red-500 text-xs italic">
             {{ form.errors.get('keySession') }}
           </p>
@@ -59,7 +60,7 @@
           <textarea v-model="form.notes" class="form-control" type="text-area" name="notes" placeholder="Note" rows="4" cols="8"></textarea>
         </div>
 
-        <loading-button :is-loading="isLoading" :disabled="isDisabled" :class="[{ 'opacity-50 cursor-not-allowed': isDisabled }]" class="btn-indigo w-full">
+        <loading-button @click.native="test" :is-loading="isLoading" :class="[{ 'opacity-50 cursor-not-allowed': isDisabled }]" class="btn-indigo w-full">
           Register
         </loading-button>
 
@@ -82,16 +83,14 @@
 </template>
 
 <script>
+
 import Form from '@/utils/Form'
 import LoadingButton from '@/components/LoadingButton'
 
 export default {
-  auth: 'guest',
-
   components: {
     LoadingButton
   },
-
   data () {
     return {
       form: new Form({
@@ -104,6 +103,7 @@ export default {
         appointment: '',
       }),
       isLoading: false,
+      isDisabled: false,
       error: false
     }
   },
@@ -113,39 +113,24 @@ export default {
       return this.form.incompleted() || this.isLoading
     }
   },
-
   methods: {
-    register () {
-      if (this.isDisabled) {
-        return false
+    setItem: function(data) {
+    return localStorage.setItem('key', JSON.stringify(data))
+    // Retrieve data from localstorage
+  },
+    test: function() {
+      this.setItem(this.form)
+      alert('test')
+    },
+    transition (to, from) {
+      if (from && from.name === 'login') {
+        return 'fade-out-left'
       }
-
-      this.isLoading = true
-
-      this.$axios.post('auth/register', this.form.data())
-        .then(() => {
-          this.$auth.loginWith('local', { data: this.form.data() })
-        })
-        .catch(({ response }) => {
-          this.isLoading = false
-
-          this.form.onFail(response.data.errors)
-          this.form.password = ''
-          this.form.password_confirmation = ''
-        })
     }
   },
-
-  head () {
-    return {
-      title: 'Register'
-    }
+  getItem: function(key) {
+    const retrievedData = JSON.parse(localStorage.getItem(key))
   },
-
-  transition (to, from) {
-    if (from && from.name === 'login') {
-      return 'fade-out-left'
-    }
-  }
+  
 }
 </script>
