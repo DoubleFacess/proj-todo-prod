@@ -126,12 +126,6 @@ export default {
       completedTasks () {
         return this.fakeTasks.filter(task => task.is_completed)
       },
-      tasks () {
-        if (this.isAnimated) {
-          return this.initialTasks
-        }
-        return this.filteredTasks
-      },
       filteredTasks () {
         switch (this.status) {
           case 'active':
@@ -146,9 +140,39 @@ export default {
         console.log(this.$route.params.status)
         return this.$route.params.status || 'all'
       },
+      tasks () {
+        if (this.isAnimated) {
+          return this.initialTasks
+        }
+        return this.filteredTasks
+      },
       timeToChill () {
         return this.tasks.length === 0
+      },
+      storageTasks() {
+        return this.getLocalStorageArray('tasks')
+      },
+    },
+    /*
+    created() {
+      const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+      this.$store.commit('setTasks', tasks);
+      window.addEventListener('storage', this.handleStorageEvent);
+    },
+    beforeDestroy() {
+      window.removeEventListener('storage', this.handleStorageEvent);
+    },
+    methods: {
+      handleStorageEvent(event) {
+        if (event.key === 'tasks') {
+          const tasks = JSON.parse(event.newValue) || [];
+          this.$store.commit('setTasks', tasks);
+        }
       }
+    }
+    */
+    created: function() {
+      this.setTasks()
     },
     methods: {
       async deleteTasks () {
@@ -161,7 +185,11 @@ export default {
         } finally {
           this.isRemoveLoading = false
         }
+      },
+      async setTasks () {        
+        this.$store.commit('setTodos', this.storageTasks)
       }
+
     }
 }
 </script>

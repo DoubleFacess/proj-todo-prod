@@ -95,6 +95,7 @@ export default {
   data () {
     return {
       form: new Form({
+        id: '',
         done: false,
         descr: '',
         ticket: '',
@@ -115,8 +116,7 @@ export default {
     }
   },
   methods: {
-    handleSubmit() {
-      this.form.id = this.generateTodoId()
+    /*handleSubmit() {      
       this.saveTodoToLocalStorage(this.form)
       this.$store.commit('addTodo', this.form)
       this.form = {
@@ -127,14 +127,16 @@ export default {
         dueDate: '',
         appointment: '',
       }
-    },
+    },*/
     setItem: function(data) {
       return localStorage.setItem('key', JSON.stringify(data))
       // Retrieve data from localstorage
     },
     test: function() {
-      this.form.id = uuidv4()
-      this.setItem(this.form)
+      let id = uuidv4()
+      this.form.id = id
+      this.pushLocalStorageArrayItem('tasks', this.form)
+      //this.setItem(this.form)
       alert('test')
     },
     transition (to, from) {

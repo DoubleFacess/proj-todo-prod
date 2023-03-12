@@ -29,6 +29,7 @@ const store = new Vuex.Store({
         }
     },
     mutations: {
+        /*
         SET_TASKS (state, tasks) {
             state.tasks = tasks
         },
@@ -50,8 +51,13 @@ const store = new Vuex.Store({
                 Vue.set(state.tasks[index], 'is_completed', !task.is_completed)
             }
         }
+        */
     },
     actions: {
+        setTodos(state, payload) {
+            state.todos = payload
+        },
+        /*
         fetchTasks ({ commit }) {
             // Esempio di chiamata ad API
             // axios.get('/api/tasks').then(response => {
@@ -99,5 +105,6 @@ const store = new Vuex.Store({
             const toggledTask = { ...task, is_completed: !task.is_completed }
             commit('TOGGLE_TASK', toggledTask)
         }
+        */
     }
 })
