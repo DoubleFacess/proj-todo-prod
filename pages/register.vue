@@ -84,6 +84,7 @@
 
 <script>
 
+import { v4 as uuidv4 } from 'uuid'
 import Form from '@/utils/Form'
 import LoadingButton from '@/components/LoadingButton'
 
@@ -114,11 +115,25 @@ export default {
     }
   },
   methods: {
+    handleSubmit() {
+      this.form.id = this.generateTodoId()
+      this.saveTodoToLocalStorage(this.form)
+      this.$store.commit('addTodo', this.form)
+      this.form = {
+        done: false,
+        contact: '',
+        ticket: '',
+        notes: '',
+        dueDate: '',
+        appointment: '',
+      }
+    },
     setItem: function(data) {
-    return localStorage.setItem('key', JSON.stringify(data))
-    // Retrieve data from localstorage
-  },
+      return localStorage.setItem('key', JSON.stringify(data))
+      // Retrieve data from localstorage
+    },
     test: function() {
+      this.form.id = uuidv4()
       this.setItem(this.form)
       alert('test')
     },
