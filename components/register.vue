@@ -6,7 +6,6 @@
           Nuovo Task
         </nuxt-link>
       </h1>
-
       <form class="form-card" @keydown="form.errors.clear($event.target.name)">
       <!--<form class="form-card" @submit.prevent="register" @keydown="form.errors.clear($event.target.name)">-->
         <div class="mb-4">

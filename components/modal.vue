@@ -1,47 +1,43 @@
 <template>
-  <transition name="fade">
-    <div v-if="isModalVisible">
-      <div @click="onToggle" class="absolute bg-black opacity-70 inset-0 z-0"></div>
-        <div class="w-full max-w-lg p-3 relative mx-auto my-auto rounded-xl shadow-lg bg-white">
-          <div>
-            <div class="text-center p-3 flex-auto justify-center leading-6">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="w-16 h-16 flex items-center text-purple-500 mx-auto"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
-                  clip-rule="evenodd"
-                />
-              </svg>
-              <h2 class="text-2xl font-bold py-4">Are you sure?</h2>
-              <p class="text-md text-gray-500 px-8">Do you really want to exit without saving your work?</p>
-            </div>
-            <div class="p-3 mt-2 text-center space-x-4 md:block">
-            <button
-              class="mb-2 md:mb-0 bg-white px-5 py-2 text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-md hover:shadow-lg hover:bg-gray-100"
-            >Save
-            </button>
-            <button
-              @click="onToggle"
-              class="mb-2 md:mb-0 bg-purple-500 border border-purple-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-md hover:shadow-lg hover:bg-purple-600"
-            >Close
-            </button>
-          </div>
+<div v-if="isModalVisible">
+  <div @click="onToggle" class="absolute opacity-70 inset-0 z-0"></div>
+  <div class="overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center flex">
+    <div class="relative w-auto my-6 mx-auto max-w-3xl">
+      <!--content-->
+      <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+      <!--header-->
+      <div class="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
+        <h3 class="text-3xl font-semibold">Modal Title</h3>
+        <button class="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none" v-on:click="toggleModal()">
+         <span class="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">×</span>
+          </button>
         </div>
+        <!--body-->
+        <div class="relative p-6 flex-auto">
+          <p class="my-4 text-slate-500 text-lg leading-relaxed">
+            I always felt like I could do anything. That’s the main
+            thing people are controlled by! Thoughts- their perception
+            of themselves! They're slowed down by their perception of
+            themselves. If you're taught you can’t do anything, you
+            won’t do anything. I was taught I could do everything.
+          </p>
+        </div>
+        <!--footer-->
+        <div class="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
+        <button class="text-red-500 bg-transparent border border-solid border-red-500 hover:bg-red-500 hover:text-white active:bg-red-600 font-bold uppercase text-sm px-6 py-3 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" v-on:click="toggleModal()">Close</button>
+        <button class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" v-on:click="toggleModal()">Save Changes</button>
       </div>
-    </div>
-  </transition>
+                    </div>
+                </div>
+            </div>
+        </div>
 </template>
 
 <script>
 export default {
   data() {
     return {
-      isOpen: true
+      isOpen: false,
     };
   },
 
