@@ -39,7 +39,8 @@ export default {
     { src: '~/plugins/directives.js', ssr: false },
     { src: '~/plugins/axios.js', ssr: false },
     { src: '~/plugins/datetime.js', ssr: false },
-    { src: '~/plugins/storage.js', ssr: false }
+    { src: '~/plugins/storage.js', ssr: false },
+    { src: '~/plugins/eventBus.js', ssr: false }
   ],
 
   /*
