@@ -38,7 +38,7 @@
           <div class="overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center flex bg-indigo-100">
             <div class="relative w-auto my-6 mx-auto max-w-3xl">
               <!--Form Component-->
-              <formTask />
+              <editTasks />
             </div>
           </div>
         </div>
@@ -86,7 +86,8 @@ import { mapGetters } from 'vuex'
 import Task from '@/components/Tasks/Task'
 import NewTask from '@/components/Tasks/NewTask'
 import LoadingButton from '@/components/LoadingButton'
-import formTask from '@/components/register'
+import editTasks from '@/components/tasks/editTasks'
+
 
 /*import TaskModel from '@/models/Task'*/
 
@@ -95,7 +96,7 @@ export default {
     Task,
     NewTask,
     LoadingButton,
-    formTask
+    editTasks
   },
   data () {
     return {
@@ -125,10 +126,8 @@ export default {
   },
   mounted: function(){
     //this.onToggle()
-    this.$root.$on('my-event', (payload) => {
-      console.log('yes', payload)
-      this.onToggle()
-      
+    this.$root.$on('my-event', () => {      
+      this.onToggle()      
     })  
   },
   computed: {

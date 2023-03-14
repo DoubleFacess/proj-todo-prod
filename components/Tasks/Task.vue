@@ -137,7 +137,7 @@ export default {
     },
     updateTask () {
       //this.onToggle()
-      this.$root.$emit('my-event', { message: 'Hello from Component A!' })
+      this.$root.$emit('my-event')
       if (this.isDisabled) {
         return false
       }

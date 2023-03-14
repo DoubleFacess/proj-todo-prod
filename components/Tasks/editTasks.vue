@@ -57,11 +57,24 @@
             Note
           </label>
           <textarea v-model="form.notes" class="form-control" type="text-area" name="notes" placeholder="Note" rows="4" cols="8"></textarea>
-        </div>
-
-        <loading-button @click.native="test" :is-loading="isLoading" :class="[{ 'opacity-50 cursor-not-allowed': isDisabled }]" class="btn-indigo w-full">
-          Register
-        </loading-button>
+        </div>        
+        <!--footer-->
+          <div class="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
+            <loading-button
+              :is-loading="isUpdateLoading"
+              :class="{'opacity-50 cursor-not-allowed' : isDisabled}"
+              icon="check"
+              class="btn-indigo text-sm"
+              @click.native="updateTask">Save
+            </loading-button>
+            <loading-button
+              :is-loading="isUpdateLoading"
+              :class="{'opacity-50 cursor-not-allowed' : isDisabled}"
+              icon="edit"
+              class="btn-indigo-light text-sm mx-2"
+              @click.native="exitModal">Cancel
+            </loading-button>
+          </div>
 
         <div class="mt-4 text-sm">
           Already have an account ?
@@ -115,6 +128,7 @@ export default {
     }
   },
   methods: {
+    
     /*handleSubmit() {      
       this.saveTodoToLocalStorage(this.form)
       this.$store.commit('addTodo', this.form)
