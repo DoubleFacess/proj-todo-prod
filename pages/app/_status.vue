@@ -35,7 +35,7 @@
         <!-- Modal -->
         <div v-if="isModalVisible">
           <!--<div @click="onToggle" class="absolute opacity-70 inset-0 z-0" style="background-color: rgba(0, 0, 0, 0.5)"></div>-->
-          <div class="overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center flex bg-indigo-100">
+          <div  class="overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center flex bg-indigo-100" @click="closeModal">
             <div class="relative w-auto my-6 mx-auto max-w-3xl">
               <!--Form Component-->
               <editTasks />
@@ -43,10 +43,10 @@
           </div>
         </div>
         <nuxt-link 
-            :class="[status === 'completed' ? 'pill-active' : 'pill-inactive']" 
-            class="pill-default lg:flex-grow-0 no-underline" 
-            :to="{name: 'app-status', params: { status: 'completed' }}" 
-            exact
+          :class="[status === 'completed' ? 'pill-active' : 'pill-inactive']" 
+          class="pill-default lg:flex-grow-0 no-underline" 
+          :to="{name: 'app-status', params: { status: 'completed' }}" 
+          exact
         >Tutti ({{ completedTasks.length }})</nuxt-link>
         <div class="container mx-auto mt-3 px-4">
           <div v-if="false && isLoading" class="text-xl text-center my-6 text-gray-800">
@@ -132,7 +132,7 @@ export default {
   },
   computed: {
     isModalVisible() {
-      return this.isOpen;
+      return this.isOpen
     },
     allTasks () {
       return this.fakeTasks
@@ -171,9 +171,10 @@ export default {
     },
   },
   created() {
+    console.log('root: created')
     //const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
     const tasks = this.getLocalStorageArray('tasks') || []
-    this.$store.commit('setTasks', tasks)
+    //this.$store.commit('setTasks', tasks)
     window.addEventListener('storage', this.handleStorageEvent)
     window.addEventListener('storage', console.log('test 1'))
   },
@@ -181,8 +182,13 @@ export default {
     window.removeEventListener('storage', this.handleStorageEvent)
   },
   methods: {
+    closeModal(event) {
+      if (event.target.classList.contains('absolute')) {
+        this.onToggle()
+      }
+    },
     onToggle() {
-      this.isOpen = !this.isOpen;
+      this.isOpen = !this.isOpen
     },
     handleStorageEvent(event) {
       console.log('hi it works!')

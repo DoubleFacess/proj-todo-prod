@@ -72,15 +72,15 @@
               :class="{'opacity-50 cursor-not-allowed' : isDisabled}"
               icon="edit"
               class="btn-indigo-light text-sm mx-2"
-              @click.native="exitModal">Cancel
+              @click.native="myTest">Cancel
             </loading-button>
           </div>
 
         <div class="mt-4 text-sm">
           Already have an account ?
 
-          <nuxt-link class="inline-block font-bold text-indigo-500 hover:text-indigo-800" :to="{ name: 'login' }" exact>
-            Log in now
+          <nuxt-link class="inline-block font-bold text-indigo-500 hover:text-indigo-800" :to="{ name: 'index' }" exact>
+            Vai alla Home
           </nuxt-link>
         </div>
       </form>
@@ -128,19 +128,10 @@ export default {
     }
   },
   methods: {
-    
-    /*handleSubmit() {      
-      this.saveTodoToLocalStorage(this.form)
-      this.$store.commit('addTodo', this.form)
-      this.form = {
-        done: false,
-        contact: '',
-        ticket: '',
-        notes: '',
-        dueDate: '',
-        appointment: '',
-      }
-    },*/
+    myTest: function() {      
+      //return this.$root.emit('my-event')
+      console.log('hi')
+    },
     setItem: function(data) {
       return localStorage.setItem('key', JSON.stringify(data))
       // Retrieve data from localstorage
@@ -150,7 +141,7 @@ export default {
       this.form.id = id
       this.pushLocalStorageArrayItem('tasks', this.form)
       //this.setItem(this.form)
-      alert('test')
+      //alert('test')
     },
     transition (to, from) {
       if (from && from.name === 'login') {
