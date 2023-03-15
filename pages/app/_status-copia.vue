@@ -52,30 +52,31 @@
       <div v-if="false && isLoading" class="text-xl text-center my-6 text-gray-800">
         <fa icon="spinner" class="mr-1" spin />Loading
       </div>
-      <transition-group class="relative" name="fade-out-left" tag="ul">
-        <task v-for="task in storageTasks"
-          :key="task.id"
-          :task="task"
-          class="animated task-item"
+    <transition-group class="relative" name="fade-out-left" tag="ul">
+                <task v-for="task in storageTasks"
+            :key="task.id"
+            :task="task"
+            class="animated task-item"
         />
-      </transition-group>
-      <new-task v-if="status != 'completed'" />
-      <div v-else class="flex justify-end my-4">
-        <loading-button v-if="completedTasks.length"
-          :is-loading="isRemoveLoading"
-          :class="[isRemoveLoading ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:underline hover:text-red-500']"
-          type="button"
-          icon="trash"
-          class="text-gray-800 text-sm"
-          @click.native="deleteTasks"
-        >Delete completed tasks
-        </loading-button>
-      </div>
-      <div v-if="timeToChill" class="text-center mb-6">
-        <p class="text-5xl">🍻</p>Time to chill ! You have no tasks
-      </div>
+      
+    </transition-group>
+    <new-task v-if="status != 'completed'" />
+    <div v-else class="flex justify-end my-4">
+      <loading-button v-if="completedTasks.length"
+        :is-loading="isRemoveLoading"
+        :class="[isRemoveLoading ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:underline hover:text-red-500']"
+        type="button"
+        icon="trash"
+        class="text-gray-800 text-sm"
+        @click.native="deleteTasks"
+      >Delete completed tasks
+      </loading-button>
+    </div>
+    <div v-if="timeToChill" class="text-center mb-6">
+      <p class="text-5xl">🍻</p>Time to chill ! You have no tasks
     </div>
   </div>
+</div>
 </template>
 
 <script>
