@@ -1,5 +1,5 @@
 <template>
-  <div class="h-screen flex justify-center items-center">
+  
     <div class="w-full max-w-screen-sm">
       <h1 class="text-4xl font-bold text-center mb-6">
         <nuxt-link class="text-gray-900 no-underline hover:underline" to="/" exact>
@@ -79,7 +79,7 @@
         </a>.
       </p>
     </div>
-  </div>
+
 </template>
 
 <script>

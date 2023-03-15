@@ -39,7 +39,7 @@
         <div class="flex items-center">
           <div class="flex-grow">
             <p class="font-semibold text-lg mx-2 text-left flex-auto cursor-pointer" :class="{'line-through text-gray-500' : task.is_completed}" @click="editTask = true">
-              {{ task.title }}
+              {{ task.ticket }}-{{ task.descr }}-{{ task.notes }} 
             </p>
             <span v-if="task.due_at" :title="toDate" class="flex flex-shrink-0 mr-2 mt-2 px-2 py-1 text-xs cursor-pointer" :class="[task.is_completed ? 'line-through text-gray-500' : 'text-gray-600']" @click="editTask = true">
               <fa :icon="['far', 'clock']" class="mr-1" /> {{ fromNow }}
@@ -137,7 +137,7 @@ export default {
     },
     updateTask () {
       //this.onToggle()
-      this.$root.$emit('my-event', { message: 'Hello from Component A!' })
+      this.$root.$emit('my-event')
       if (this.isDisabled) {
         return false
       }
