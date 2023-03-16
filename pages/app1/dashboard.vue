@@ -27,8 +27,27 @@
 
 <script>
 
+import editTasks from '@/components/Tasks/editTasks'
+
 export default {
-    mounted: function() {}
+    data() {
+        return {
+            isOpen: false
+        }
+    },
+    mounted: function() {
+        console.log('mounted')
+    },
+    methods: {
+        closeModal(event) {
+            if (event.target.classList.contains('absolute')) {
+                this.onToggle()
+            }
+        },
+        onToggle() {
+            this.isOpen = !this.isOpen
+        }
+    }
 }
 
 
