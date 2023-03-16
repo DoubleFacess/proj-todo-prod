@@ -98,13 +98,22 @@
                       <button class="py-3 px-3 text-sm focus:outline-none leading-none text-red-700 bg-red-100 rounded">Due today at 18:00</button>
                     </td>
                     <td class="pl-4">
-                      <button class="focus:ring-2 focus:ring-offset-2 focus:ring-red-300 text-sm leading-none text-gray-600 py-3 px-5 bg-gray-100 rounded hover:bg-gray-200 focus:outline-none">View</button>
+                      <button
+                        @click="onToggle" 
+                        class="focus:ring-2 focus:ring-offset-2 focus:ring-red-300 text-sm leading-none text-gray-600 py-3 px-5 bg-gray-100 rounded hover:bg-gray-200 focus:outline-none"
+                      >View</button>
                     </td>
                     <td>
                       <div class="relative px-5 pt-2">
-                        <!-- Checkbox -->
+                        <!-- Checkbox
                         <div class="bg-indigo-500 rounded-full bg-white h-6 w-6 cursor-pointer flex items-center justify-center">
                           <fa icon="check" class="text-white hover:text-indigo-500" />
+                        </div>
+                        -->
+                        <!-- Checkbox -->
+                        <div :class="[fakeTask.is_completed ? 'bg-indigo-500' : 'border-2', {'cursor-not-allowed' : isToggleLoading}]" class="rounded-full bg-white h-6 w-6 cursor-pointer flex items-center justify-center" @click="toggleCompleted">
+                          <fa v-if="isToggleLoading" icon="spinner" :class="[fakeTask.is_completed ? 'text-white' : 'text-indigo-500']" spin />
+                          <fa v-else icon="check" class="text-white" :class="{'hover:text-indigo-500' : ! fakeTask.is_completed}" />
                         </div>
                       </div>
                     </td>
@@ -137,12 +146,17 @@ import { mapGetters } from 'vuex'
 
 
 /*import TaskModel from '@/models/Task'*/
+import editTasks from '@/components/Tasks/editTasks'
 
 export default {
+  components: {
+    editTasks
+  },
   data () {
     return {
       isOpen: false,
       isLoading: false,
+      isToggleLoading: false,
       /*
       isRemoveLoading: false,
       isAnimated: true,
@@ -179,7 +193,16 @@ export default {
   computed: {
     isModalVisible() {
       return this.isOpen
-    }  
+    },
+    storageTasks() {
+      return this.getLocalStorageArray('tasks')
+    },
+    fakeTask() {
+      return {
+        title: 'Task 3',
+        is_completed: false        
+      }
+    }
   },
   /*
   computed: {
@@ -242,6 +265,13 @@ export default {
     },
     onToggle() {
       this.isOpen = !this.isOpen
+    },
+    toggleCompleted () {
+      console.log('arrive here?')
+      if (this.isToggleLoading) {
+        return false
+      }
+      this.isToggleLoading = true
     }
   },
   /*
