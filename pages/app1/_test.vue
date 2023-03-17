@@ -129,7 +129,7 @@
     <div v-if="isModalVisible">
       <!--<div @click="onToggle" class="absolute opacity-70 inset-0 z-0" style="background-color: rgba(0, 0, 0, 0.5)"></div>-->
       <div  class="overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center flex bg-indigo-100" @click="closeModal">
-      <div class="relative w-auto my-6 mx-auto max-w-3xl">
+      <div class="relative w-full my-6 mx-auto max-w-3xl">
         <!--Form Component-->
         <editTasks />
         </div>

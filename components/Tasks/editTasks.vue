@@ -30,7 +30,7 @@
         <textarea v-model="form.notes" class="form-control" type="text-area" name="notes" placeholder="Note" rows="4" cols="8"></textarea>
       </div>        
       <!--footer-->
-      <div class="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
+      <div class="flex items-center justify-start p-6 border-t border-solid border-slate-200 rounded-b">
         <loading-button
           :is-loading="isUpdateLoading"
           :class="{'opacity-50 cursor-not-allowed' : isDisabled}"
@@ -46,16 +46,7 @@
           @click.native="close">Cancel
         </loading-button>
       </div>
-      <div class="mt-4 text-sm">Already have an account ?
-        <nuxt-link class="inline-block font-bold text-indigo-500 hover:text-indigo-800" :to="{ name: 'index' }" exact>Vai alla Home</nuxt-link>
-      </div>
     </form>
-    <p class="text-center text-gray-500 text-xs">
-      Source code available on 
-      <a href="https://github.com/guillaumebriday/todolist-frontend-nuxt" class="text-gray-500">
-        <fa :icon="['fab', 'github']" /> GitHub
-      </a>.
-    </p>
   </div>
 </template>
 
