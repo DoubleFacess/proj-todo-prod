@@ -104,7 +104,7 @@
                     </td>
                     <td class="pl-4">
                       <button
-                        @click="onToggle" 
+                        @click="openModal(task.id)" 
                         class="focus:ring-2 focus:ring-offset-2 focus:ring-red-300 text-sm leading-none text-gray-600 py-3 px-5 bg-gray-100 rounded hover:bg-gray-200 focus:outline-none"
                       >View</button>
                     </td>
@@ -134,9 +134,9 @@
     <div v-if="isModalVisible">
       <!--<div @click="onToggle" class="absolute opacity-70 inset-0 z-0" style="background-color: rgba(0, 0, 0, 0.5)"></div>-->
       <div  class="overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center flex bg-indigo-100" @click="closeModal">
-      <div class="relative w-full my-6 mx-auto max-w-3xl">
-        <!--Form Component-->
-        <editTasks />
+        <div class="relative w-full my-6 mx-auto max-w-3xl">
+          <!--Form Component-->
+          <editTasks :task="task" />
         </div>
       </div>
     </div>
@@ -162,6 +162,7 @@ export default {
       isOpen: false,
       isLoading: false,
       isToggleLoading: false,
+      task: null,
       /*
       isRemoveLoading: false,
       isAnimated: true,
@@ -267,6 +268,18 @@ export default {
       if (event.target.classList.contains('absolute')) {
         this.onToggle()
       }
+    },
+    getTask(id) {
+      // Recupera l'array di tasks dal LocalStorage
+      let tasks = this.getLocalStorageArray('tasks')
+      // Filtra l'array in base all'ID
+      let filteredTasks = tasks.filter(task => task.id === id)
+      // Restituisci l'array filtrato
+      return filteredTasks
+    },
+    openModal(id) {
+      this.task = this.getTask(id)
+      this.onToggle()
     },
     handleStorageEvent(event) {
       console.log('hi it works!')

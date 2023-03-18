@@ -3,71 +3,31 @@
     <h1 class="text-4xl font-bold text-center mb-6">
       <nuxt-link class="text-gray-900 no-underline hover:underline" to="/" exact>Nuovo Task</nuxt-link>
     </h1>
-    <form class="form-card">
+    <form class="form-card" @keydown="form.errors.clear($event.target.name)">
     <!--<form class="form-card" @submit.prevent="register" @keydown="form.errors.clear($event.target.name)">-->
       <div class="mb-4">
         <label class="block text-gray-800 text-sm font-bold mb-2" for="name">Descrizione</label>
-        <input 
-          id="name" 
-          v-model="form.descr" 
-          v-focus class="form-control" 
-          type="text" 
-          name="name" 
-          placeholder="Mario Rossi, Tribunale Catania, 095366820"
-        >
-        <!--
+        <input id="name" v-model="form.descr" v-focus class="form-control" type="text" :class="{ 'border-red-500 mb-3' : form.errors.has('descr') }" name="name" placeholder="Mario Rossi, Tribunale Catania, 095366820">
         <p v-if="form.errors.has('descr')" class="text-red-500 text-xs italic">{{ form.errors.get('name') }}</p>
-        -->
       </div>
       <div class="mb-4">
         <label class="block text-gray-800 text-sm font-bold mb-2" for="username">Ticket</label>
-        <input 
-          id="ticket" 
-          v-model="form.ticket" 
-          class="form-control" 
-          name="ticket" 
-          placeholder="Ticket"
-        >
-        <!--
+        <input id="ticket" v-model="form.ticket" class="form-control" :class="{ 'border-red-500 mb-3' : form.errors.has('ticket') }" name="ticket" placeholder="Ticket">
         <p v-if="form.errors.has('ticket')" class="text-red-500 text-xs italic">{{ form.errors.get('ticket') }}</p>
-        -->
       </div>
       <div class="mb-4">
         <label class="block text-gray-800 text-sm font-bold mb-2" for="username">Chiave sessione</label>
-        <input 
-          id="keySession" 
-          v-model="form.keySession" 
-          class="form-control" 
-          name="ticket" 
-          placeholder="keySession"
-        >
-        <!--
+        <input id="keySession" v-model="form.keySession" class="form-control" :class="{ 'border-red-500 mb-3' : form.errors.has('keySession') }" name="ticket" placeholder="keySession">
         <p v-if="form.errors.has('keySession')" class="text-red-500 text-xs italic">{{ form.errors.get('keySession') }}</p>
-        -->
       </div>
       <div class="mb-6">
         <label class="block text-gray-800 text-sm font-bold mb-2" for="password">Pianificato</label>
-        <input 
-          id="dueDate" 
-          v-model="form.dueDate" 
-          class="form-control" 
-          type="date" 
-          name="dueDate" 
-          placeholder="Password"
-        >
-        <!--<p v-if="form.errors.has('password')" class="text-red-500 text-xs italic">{{ form.errors.get('dueDate') }}</p>-->
+        <input id="dueDate" v-model="form.dueDate" class="form-control" :class="{ 'border-red-500 mb-3' : form.errors.has('dueDate') }" type="date" name="dueDate" placeholder="Password">
+        <p v-if="form.errors.has('password')" class="text-red-500 text-xs italic">{{ form.errors.get('dueDate') }}</p>
       </div>
       <div class="mb-6">
         <label class="block text-gray-800 text-sm font-bold mb-2" for="password_confirmation">Note</label>
-        <textarea 
-          v-model="form.notes" 
-          class="form-control" 
-          type="text-area" 
-          name="notes" 
-          placeholder="Note" 
-          rows="4" 
-          cols="8"
-        ></textarea>
+        <textarea v-model="form.notes" class="form-control" type="text-area" name="notes" placeholder="Note" rows="4" cols="8"></textarea>
       </div>        
       <!--footer-->
       <div class="flex items-center justify-start p-6 border-t border-solid border-slate-200 rounded-b">
@@ -136,14 +96,15 @@ export default {
     }
   },
   methods: {
-    getItem: function(key) {
-      const retrievedData = JSON.parse(localStorage.getItem(key))
+    close: function() { 
+      this.isLoading = false     
+      this.$eventBus.$emit('my-event')
     },
     setItem: function(data) {
       return localStorage.setItem('key', JSON.stringify(data))
       // Retrieve data from localstorage
     },
-    addTask: function() {
+    test: function() {
       let id = uuidv4()
       this.form.id = id
       this.pushLocalStorageArrayItem('tasks', this.form)
@@ -155,6 +116,10 @@ export default {
         return 'fade-out-left'
       }
     }
-  }  
+  },
+  getItem: function(key) {
+    const retrievedData = JSON.parse(localStorage.getItem(key))
+  },
+  
 }
 </script>
