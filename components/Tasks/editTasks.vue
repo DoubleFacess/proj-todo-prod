@@ -76,7 +76,7 @@
           :class="{'opacity-50 cursor-not-allowed' : isDisabled}"
           icon="check"
           class="btn-indigo text-sm"
-          @click.native="updateTask">Save
+          @click.native="my_test(form.id)">Save
         </loading-button>
         <loading-button
           :is-loading="isUpdateLoading"
@@ -94,6 +94,7 @@
 
 import { v4 as uuidv4 } from 'uuid'
 import Form from '@/utils/Form'
+import Fetch from '@/utils/Fetch'
 import LoadingButton from '@/components/LoadingButton'
 
 export default {
@@ -136,9 +137,6 @@ export default {
     }
   },
   methods: {
-    getItem: function(key) {
-      const retrievedData = JSON.parse(localStorage.getItem(key))
-    },
     setItem: function(data) {
       return localStorage.setItem('key', JSON.stringify(data))
       // Retrieve data from localstorage
@@ -150,6 +148,34 @@ export default {
       //this.setItem(this.form)
       //alert('test')
     },
+    updateItem(id) {
+      const items = this.getLocalStorageArray('tasks')
+      const index = items.findIndex(item => item.id === id)
+      if (index >= 0) {
+        items[index] = { ...items[index], ...this.form }
+        this.setItems(items)
+      }
+    },
+    my_test: function(_id) {
+      let id = uuidv4()
+      this.form.id = id
+      let tasks = JSON.parse(localStorage.getItem('tasks')) || []
+      // Find the index of the task with the given id
+      let index = tasks.findIndex(task => task.id === _id)
+      if (index !== -1) {
+        // If a task with the given id exists, update its properties
+        tasks[index].title = this.form.title
+        tasks[index].description = this.form.description
+        tasks[index].dueDate = this.form.dueDate
+        tasks[index].priority = this.form.priority
+      } else {
+        // If no task with the given id exists, add the new task to the array
+        tasks.push(this.form)
+      }
+      localStorage.setItem('tasks', JSON.stringify(tasks))
+      alert('test')
+    },
+
     transition (to, from) {
       if (from && from.name === 'login') {
         return 'fade-out-left'
