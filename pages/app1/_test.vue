@@ -57,14 +57,19 @@
             <div class="mt-7 overflow-x-auto">
               <table class="w-full whitespace-nowrap">
                 <tbody>
-                  <tr tabindex="0" class="focus:outline-none h-16 border border-gray-100 rounded">
+                  <tr tabindex="0" 
+                    class="focus:outline-none h-16 border border-gray-100 rounded"
+                    v-for="task in storageTasks"
+                    :key="task.id"
+                    :task="task"                    
+                  >
                     <td class="">
                       <div class="flex items-center pl-5">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                           <path d="M9.16667 2.5L16.6667 10C17.0911 10.4745 17.0911 11.1922 16.6667 11.6667L11.6667 16.6667C11.1922 17.0911 10.4745 17.0911 10 16.6667L2.5 9.16667V5.83333C2.5 3.99238 3.99238 2.5 5.83333 2.5H9.16667" stroke="#52525B" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"></path>
                           <circle cx="7.50004" cy="7.49967" r="1.66667" stroke="#52525B" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"></circle>
                         </svg>
-                        <p class="text-base font-medium leading-none text-gray-700 mr-2 pl-2">Russo Giuseppe, trib Catania, 032825776, another number 0928556699</p>
+                        <p class="text-base font-medium leading-none text-gray-700 mr-2 pl-2">{{task.descr}}</p>
                       </div>
                     </td>
                     <td class="pl-5">
@@ -77,7 +82,7 @@
                           <path d="M4.16669 10V10.0067" stroke="#52525B" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"></path>
                           <path d="M4.16669 15V15.0067" stroke="#52525B" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"></path>
                         </svg>
-                        <p class="text-sm leading-none text-gray-600 ml-2">INC0225771</p>
+                        <p class="text-sm leading-none text-gray-600 ml-2">{{task.ticket}}</p>
                       </div>
                     </td>
                     <td class="pl-5">
@@ -91,11 +96,11 @@
                             stroke-linejoin="round"
                           ></path>
                         </svg>
-                        <p class="text-sm leading-none text-gray-600 ml-2">4848765</p>
+                        <p class="text-sm leading-none text-gray-600 ml-2">{{task.keySession}}</p>
                       </div>
                     </td>
                     <td class="pl-5">
-                      <button class="py-3 px-3 text-sm focus:outline-none leading-none text-red-700 bg-red-100 rounded">Due today at 18:00</button>
+                      <button class="py-3 px-3 text-sm focus:outline-none leading-none text-red-700 bg-red-100 rounded">Due today at {{task.dueDate}}</button>
                     </td>
                     <td class="pl-4">
                       <button
@@ -121,7 +126,7 @@
                 </tbody>
               </table>
             </div>
-          </div>          
+          </div>
         </div>
       </div>
     </section>
@@ -261,6 +266,13 @@ export default {
     closeModal(event) {
       if (event.target.classList.contains('absolute')) {
         this.onToggle()
+      }
+    },
+    handleStorageEvent(event) {
+      console.log('hi it works!')
+      if (event.key === 'tasks') {
+        const tasks = JSON.parse(event.newValue) || []
+        this.$store.commit('setTasks', tasks)
       }
     },
     onToggle() {
