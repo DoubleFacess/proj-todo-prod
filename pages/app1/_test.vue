@@ -51,8 +51,11 @@
                   <option class="text-sm text-indigo-800">Latest</option>
                 </select>
               </div>
-            </div>            
+            </div>
           </div>
+          <button class="animated fastest hover:underline text-gray-800 text-sm cursor-pointer mb-5" @click="openModal(0)">
+            <fa icon="plus" class="mr-1" />Add task
+          </button>
           <div class="bg-white py-4 md:py-7 px-4 md:px-8 xl:px-10">
             <div class="mt-7 overflow-x-auto">
               <table class="w-full whitespace-nowrap">
@@ -131,6 +134,9 @@
       </div>
     </section>
     <!-- Modal -->
+    <div v-if="timeToChill" class="text-center mb-6">
+      <p class="text-5xl">🍻</p>Time to chill ! You have no tasks
+    </div>
     <div v-if="isModalVisible">
       <!--<div @click="onToggle" class="absolute opacity-70 inset-0 z-0" style="background-color: rgba(0, 0, 0, 0.5)"></div>-->
       <div  class="overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center flex bg-indigo-100" @click="closeModal">
@@ -168,23 +174,6 @@ export default {
       isAnimated: true,
       initialTasks: [],
       */
-      fakeTasks: [
-        {
-          id: 1,
-          title: 'Task 1',
-          is_completed: false
-        },
-        {
-          id: 2,
-          title: 'Task 2',
-          is_completed: true
-        },
-        {
-          id: 3,
-          title: 'Task 3',
-          is_completed: false
-        }
-      ]
     }
   },
   mounted: function(){
@@ -202,6 +191,9 @@ export default {
     },
     storageTasks() {
       return this.getLocalStorageArray('tasks')
+    },
+    timeToChill () {
+      return this.storageTasks.length === 0
     },
     fakeTask() {
       return {

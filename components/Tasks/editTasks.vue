@@ -108,10 +108,9 @@ export default {
         done: false,
         descr: '',
         ticket: '',
-        keySession: '',
-        notes: '',
+        keySession: '',        
         dueDate: '',
-        appointment: '',
+        notes: ''
       }),
       isLoading: false,
       isDisabled: false,
@@ -154,6 +153,7 @@ export default {
       if (index >= 0) {
         items[index] = { ...items[index], ...this.form }
         this.setItems(items)
+        alert('done')
       }
     },
     my_test: function(_id) {
@@ -164,10 +164,11 @@ export default {
       let index = tasks.findIndex(task => task.id === _id)
       if (index !== -1) {
         // If a task with the given id exists, update its properties
-        tasks[index].title = this.form.title
-        tasks[index].description = this.form.description
+        tasks[index].descr = this.form.descr
+        tasks[index].ticket = this.form.ticket
+        tasks[index].keySession = this.form.keySession
         tasks[index].dueDate = this.form.dueDate
-        tasks[index].priority = this.form.priority
+        tasks[index].notes = this.form.notes
       } else {
         // If no task with the given id exists, add the new task to the array
         tasks.push(this.form)
