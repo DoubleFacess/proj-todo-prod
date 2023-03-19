@@ -1,6 +1,7 @@
 <template>
   <div>
     <div class="flex justify-center shadow">
+      <!--
       <nuxt-link
         :class="[status === 'completed' ? 'pill-active' : 'pill-inactive']" 
         class="pill-default lg:flex-grow-0 no-underline" 
@@ -31,50 +32,52 @@
         :to="{name: 'app-status', params: { status: 'completed' }}" 
         exact
       >Tutti ({{ completedTasks.length }})</nuxt-link>
+    -->
     </div>
+    <section class="text-gray-600 body-font">
+      <div class="container px-5 py-24 mx-auto">
+        <!-- component -->
+        <div class="sm:px-6 w-full">
+          <!-- main table -->
+          <!-- Header Main -->
+          <div class="px-4 md:px-10 py-4 md:py-7">
+            <div class="flex items-center justify-between">
+              <p tabindex="0" class="focus:outline-none text-base sm:text-lg md:text-xl lg:text-2xl font-bold leading-normal text-gray-800">Tasks</p>
+              <div class="py-3 px-4 flex items-center text-sm font-medium leading-none text-gray-600 bg-gray-200 hover:bg-gray-300 cursor-pointer rounded">
+                <p>Sort By:</p>
+                <select aria-label="select" class="focus:text-indigo-600 focus:outline-none bg-transparent ml-1">
+                  <option class="text-sm text-indigo-800">Latest</option>
+                  <option class="text-sm text-indigo-800">Oldest</option>
+                  <option class="text-sm text-indigo-800">Latest</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <button class="animated fastest hover:underline text-gray-800 text-sm cursor-pointer mb-5" @click="openModal(0)">
+            <fa icon="plus" class="mr-1" />Add task
+          </button>
+          <transition-group class="relative" name="fade-out-left" tag="ul">
+            <listTasks 
+              v-for="task in storageTasks"
+              :key="task.id"
+              :task="task"
+              class="animated task-item"
+            /> 
+          </transition-group>
+        </div>
+      </div>
+    </section>
     <!-- Modal -->
+    <div v-if="timeToChill" class="text-center mb-6">
+      <p class="text-5xl">🍻</p>Time to chill ! You have no tasks
+    </div>
     <div v-if="isModalVisible">
       <!--<div @click="onToggle" class="absolute opacity-70 inset-0 z-0" style="background-color: rgba(0, 0, 0, 0.5)"></div>-->
       <div  class="overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center flex bg-indigo-100" @click="closeModal">
-        <div class="relative w-auto my-6 mx-auto max-w-3xl">
+        <div class="relative w-full my-6 mx-auto max-w-3xl">
           <!--Form Component-->
-          <editTasks />
+          <editTasks :task="task" />
         </div>
-      </div>
-    </div>
-    <!-- Left bar? -->
-    <nuxt-link 
-      :class="[status === 'completed' ? 'pill-active' : 'pill-inactive']" 
-      class="pill-default lg:flex-grow-0 no-underline" 
-      :to="{name: 'app-status', params: { status: 'completed' }}" 
-      exact
-    >Tutti ({{ completedTasks.length }})</nuxt-link>
-    <!-- Main -->
-    <div class="container mx-auto mt-3 px-4">
-      <div v-if="false && isLoading" class="text-xl text-center my-6 text-gray-800">
-        <fa icon="spinner" class="mr-1" spin />Loading
-      </div>
-      <transition-group class="relative" name="fade-out-left" tag="ul">
-        <task v-for="task in storageTasks"
-          :key="task.id"
-          :task="task"
-          class="animated task-item"
-        />
-      </transition-group>
-      <new-task v-if="status != 'completed'" />
-      <div v-else class="flex justify-end my-4">
-        <loading-button v-if="completedTasks.length"
-          :is-loading="isRemoveLoading"
-          :class="[isRemoveLoading ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:underline hover:text-red-500']"
-          type="button"
-          icon="trash"
-          class="text-gray-800 text-sm"
-          @click.native="deleteTasks"
-        >Delete completed tasks
-        </loading-button>
-      </div>
-      <div v-if="timeToChill" class="text-center mb-6">
-        <p class="text-5xl">🍻</p>Time to chill ! You have no tasks
       </div>
     </div>
   </div>
@@ -82,47 +85,31 @@
 
 <script>
 
-import { mapGetters } from 'vuex'
 
-import Task from '@/components/Tasks/Task'
-import NewTask from '@/components/Tasks/NewTask'
-import LoadingButton from '@/components/LoadingButton'
-import editTasks from '@/components/Tasks/editTasks'
+
+
 
 
 /*import TaskModel from '@/models/Task'*/
+import editTasks from '@/components/Tasks/editTasks'
+import listTasks from '@/components/newTasks/task'
 
 export default {
   components: {
-    Task,
-    NewTask,
-    LoadingButton,
-    editTasks
+    editTasks,
+    listTasks
   },
   data () {
     return {
       isOpen: false,
       isLoading: false,
+      isToggleLoading: false,
+      task: null,
+      /*
       isRemoveLoading: false,
       isAnimated: true,
       initialTasks: [],
-      fakeTasks: [
-        {
-          id: 1,
-          title: 'Task 1',
-          is_completed: false
-        },
-        {
-          id: 2,
-          title: 'Task 2',
-          is_completed: true
-        },
-        {
-          id: 3,
-          title: 'Task 3',
-          is_completed: false
-        }
-      ]
+      */
     }
   },
   mounted: function(){
@@ -134,6 +121,24 @@ export default {
       this.onToggle()
     })
   },
+  computed: {
+    isModalVisible() {
+      return this.isOpen
+    },
+    storageTasks() {
+      return this.getLocalStorageArray('tasks')
+    },
+    timeToChill () {
+      return this.storageTasks.length === 0
+    },
+    fakeTask() {
+      return {
+        title: 'Task 3',
+        is_completed: false        
+      }
+    }
+  },
+  /*
   computed: {
     isModalVisible() {
       return this.isOpen
@@ -174,6 +179,7 @@ export default {
       return this.getLocalStorageArray('tasks')
     },
   },
+  */
   created() {
     console.log('root: created')
     //const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
@@ -185,6 +191,43 @@ export default {
   beforeDestroy() {
     window.removeEventListener('storage', this.handleStorageEvent)
   },
+  methods: {
+    closeModal(event) {
+      if (event.target.classList.contains('absolute')) {
+        this.onToggle()
+      }
+    },
+    getTask(id) {
+      // Recupera l'array di tasks dal LocalStorage
+      let tasks = this.getLocalStorageArray('tasks')
+      // Filtra l'array in base all'ID
+      let filteredTasks = tasks.filter(task => task.id === id)
+      // Restituisci l'array filtrato
+      return filteredTasks
+    },
+    openModal(id) {
+      this.task = this.getTask(id)
+      this.onToggle()
+    },
+    handleStorageEvent(event) {
+      console.log('hi it works!')
+      if (event.key === 'tasks') {
+        const tasks = JSON.parse(event.newValue) || []
+        this.$store.commit('setTasks', tasks)
+      }
+    },
+    onToggle() {
+      this.isOpen = !this.isOpen
+    },
+    toggleCompleted () {
+      console.log('arrive here?')
+      if (this.isToggleLoading) {
+        return false
+      }
+      this.isToggleLoading = true
+    }
+  },
+  /*
   methods: {
     closeModal(event) {
       if (event.target.classList.contains('absolute')) {
@@ -216,6 +259,7 @@ export default {
       this.$store.commit('setTodos', this.storageTasks)
     }
   }
+  */
 }
 </script>
 
