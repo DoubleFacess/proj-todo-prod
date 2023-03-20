@@ -289,7 +289,27 @@ export default {
         return false
       }
       this.isToggleLoading = true
+    },
+    /*
+    my_test: function(_id) {
+      let id = uuidv4()
+      this.form.id = id
+      let tasks = JSON.parse(localStorage.getItem('tasks')) || []
+      // Find the index of the task with the given id
+      let index = tasks.findIndex(task => task.id === _id)
+      if (index !== -1) {
+        // If a task with the given id exists, update its properties
+        tasks[index].descr = this.form.descr
+        tasks[index].ticket = this.form.ticket
+        tasks[index].keySession = this.form.keySession
+        tasks[index].dueDate = this.form.dueDate
+        tasks[index].notes = this.form.notes
+      } else {
+        // If no task with the given id exists, add the new task to the array
+        tasks.push(this.form)
+      }
     }
+    */
   },
   /*
   methods: {
