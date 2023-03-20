@@ -122,7 +122,11 @@
                         </div>
                         -->
                         <!-- Checkbox -->
-                        <div :class="[fakeTask.is_completed ? 'bg-indigo-500' : 'border-2', {'cursor-not-allowed' : isToggleLoading}]" class="rounded-full bg-white h-6 w-6 cursor-pointer flex items-center justify-center" @click="toggleCompleted">
+                        <div 
+                          :class="[fakeTask.is_completed ? 'bg-indigo-500' : 'border-2', {'cursor-not-allowed' : isToggleLoading}]" 
+                          class="rounded-full bg-white h-6 w-6 cursor-pointer flex items-center justify-center"
+                          @click="toggleCompleted(task.id)
+                        ">
                           <fa v-if="isToggleLoading" icon="spinner" :class="[fakeTask.is_completed ? 'text-white' : 'text-indigo-500']" spin />
                           <fa v-else icon="check" class="text-white" :class="{'hover:text-indigo-500' : ! fakeTask.is_completed}" />
                         </div>
@@ -283,12 +287,21 @@ export default {
     onToggle() {
       this.isOpen = !this.isOpen
     },
-    toggleCompleted () {
-      console.log('arrive here?')
+    toggleCompleted (_id) {
+      console.log('arrive here? ', _id)
       if (this.isToggleLoading) {
         return false
       }
       this.isToggleLoading = true
+      let tasks = JSON.parse(localStorage.getItem('tasks')) || []
+      let index = tasks.findIndex(task => task.id === _id)
+      if (index !== -1) {
+        // If a task with the given id exists, update its properties
+        tasks[index].done = true
+        localStorage.setItem('tasks', JSON.stringify(tasks))
+        this.isToggleLoading = false
+        alert('test')
+      }
     },
     /*
     my_test: function(_id) {
