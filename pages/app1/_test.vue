@@ -1,17 +1,16 @@
 <template>
   <div>
     <div class="flex justify-center shadow">
-      <!--
       <nuxt-link
         :class="[status === 'completed' ? 'pill-active' : 'pill-inactive']" 
         class="pill-default lg:flex-grow-0 no-underline" 
-        :to="{name: 'app-status', params: { status: 'completed ' }}"
+        :to="{name: 'app-status', params: { status: 'today ' }}"
         exact
       >Oggi ({{ completedTasks.length }})</nuxt-link>
       <nuxt-link 
         :class="[status === 'completed' ? 'pill-active' : 'pill-inactive']" 
         class="pill-default lg:flex-grow-0 no-underline" 
-        :to="{name: 'app-status', params: { status: 'completed' }}" 
+        :to="{name: 'app-status', params: { status: 'week' }}" 
         exact
       >Settimana ({{ completedTasks.length }})</nuxt-link>
       <nuxt-link 
@@ -23,16 +22,15 @@
       <nuxt-link 
         :class="[status === 'all' ? 'pill-active' : 'pill-inactive']" 
         class="pill-default lg:flex-grow-0 no-underline" 
-        :to="{name: 'app-status', params: { status: 'all' }}" 
+        :to="{name: 'app-status', params: { status: 'completed' }}" 
         exact
       >Completati({{ allTasks.length }})</nuxt-link>
       <nuxt-link 
         :class="[status === 'completed' ? 'pill-active' : 'pill-inactive']" 
         class="pill-default lg:flex-grow-0 no-underline" 
-        :to="{name: 'app-status', params: { status: 'completed' }}" 
+        :to="{name: 'app-status', params: { status: 'all' }}" 
         exact
       >Tutti ({{ completedTasks.length }})</nuxt-link>
-    -->
     </div>
     <section class="text-gray-600 body-font">
       <div class="container px-5 py-24 mx-auto">
@@ -190,11 +188,34 @@ export default {
     })
   },
   computed: {
+    activeTasks () {
+      return this.storageTasks.filter(task => !task.done)
+    },
+    activeTasksToday() {
+      const today = new Date().toLocaleDateString()
+      return this.storageTasks.filter(task => !task.done && task.date === today)
+    },
+    allTasks () {
+      return this.storageTasks
+    },
+    completedTasks () {     
+      return this.storageTasks.filter(task => task.done)
+    },
     isModalVisible() {
       return this.isOpen
     },
+    status () {
+      console.log(this.$route.params.status)
+      return this.$route.params.status || 'all'
+    },
     storageTasks() {
-      return this.getLocalStorageArray('tasks')
+      let tasks = this.getLocalStorageArray('tasks')
+      tasks.sort((a, b) => {
+        const dateA = new Date(a.dueDate)
+        const dateB = new Date(b.dueDate)
+        return dateA - dateB
+      })
+      return tasks
     },
     timeToChill () {
       return this.storageTasks.length === 0
