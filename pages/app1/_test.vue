@@ -4,15 +4,15 @@
       <nuxt-link
         :class="[status === 'today' ? 'pill-active' : 'pill-inactive']" 
         class="pill-default lg:flex-grow-0 no-underline" 
-        :to="{name: 'app-status', params: { status: 'today ' }}"
+        :to="{name: 'app1-test', params: { status: 'today ' }}"
         exact
-      >Oggi ({{ completedTasks.length }})</nuxt-link>
+      >Oggi ({{ activeTasksToday.length }})</nuxt-link>
       <nuxt-link 
         :class="[status === 'week' ? 'pill-active' : 'pill-inactive']" 
         class="pill-default lg:flex-grow-0 no-underline" 
         :to="{name: 'app-status', params: { status: 'week' }}" 
         exact
-      >Settimana ({{ completedTasks.length }})</nuxt-link>
+      >Settimana ({{ activeTasksToday.length }})</nuxt-link>
       <nuxt-link 
         :class="[status === 'active' ? 'pill-active' : 'pill-inactive']" 
         class="pill-default lg:flex-grow-0 no-underline" 
