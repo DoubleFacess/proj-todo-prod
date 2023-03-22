@@ -110,6 +110,7 @@ export default {
         ticket: '',
         keySession: '',        
         dueDate: '',
+        date: '',
         notes: ''
       }),
       isLoading: false,
@@ -162,12 +163,14 @@ export default {
       let tasks = JSON.parse(localStorage.getItem('tasks')) || []
       // Find the index of the task with the given id
       let index = tasks.findIndex(task => task.id === _id)
+      this.form.date = new Date()
       if (index !== -1) {
         // If a task with the given id exists, update its properties
         tasks[index].descr = this.form.descr
         tasks[index].ticket = this.form.ticket
         tasks[index].keySession = this.form.keySession
         tasks[index].dueDate = this.form.dueDate
+        tasks[index].date = this.form.date
         tasks[index].notes = this.form.notes
       } else {
         // If no task with the given id exists, add the new task to the array
