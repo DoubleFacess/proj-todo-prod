@@ -2,13 +2,13 @@
   <div>
     <div class="flex justify-center shadow">
       <nuxt-link
-        :class="[status === 'completed' ? 'pill-active' : 'pill-inactive']" 
+        :class="[status === 'today' ? 'pill-active' : 'pill-inactive']" 
         class="pill-default lg:flex-grow-0 no-underline" 
         :to="{name: 'app-status', params: { status: 'today ' }}"
         exact
       >Oggi ({{ completedTasks.length }})</nuxt-link>
       <nuxt-link 
-        :class="[status === 'completed' ? 'pill-active' : 'pill-inactive']" 
+        :class="[status === 'week' ? 'pill-active' : 'pill-inactive']" 
         class="pill-default lg:flex-grow-0 no-underline" 
         :to="{name: 'app-status', params: { status: 'week' }}" 
         exact
@@ -22,7 +22,7 @@
       <nuxt-link 
         :class="[status === 'all' ? 'pill-active' : 'pill-inactive']" 
         class="pill-default lg:flex-grow-0 no-underline" 
-        :to="{name: 'app-status', params: { status: 'completed' }}" 
+        :to="{name: 'app-status', params: { status: 'all' }}" 
         exact
       >Completati({{ allTasks.length }})</nuxt-link>
       <nuxt-link 
@@ -63,7 +63,7 @@
                 <tbody>
                   <tr tabindex="0" 
                     class="focus:outline-none h-16 border border-gray-100 rounded"
-                    v-for="task in storageTasks"
+                    v-for="task in filteredTasks"
                     :key="task.id"
                     :task="task"                    
                   >
@@ -201,6 +201,18 @@ export default {
     completedTasks () {     
       return this.storageTasks.filter(task => task.done)
     },
+    filteredTasks() {
+      switch (this.$route.params.status) {
+        case 'active':
+          return this.activeTasks
+        case 'activeToday':
+          return this.activeTasksToday
+        case 'completed':
+          return this.completedTasks
+        default:
+          return this.allTasks
+      }
+    },
     isModalVisible() {
       return this.isOpen
     },
@@ -241,7 +253,7 @@ export default {
     completedTasks () {
       return this.fakeTasks.filter(task => task.is_completed)
     },
-    filteredTasks () {
+    filteredTasks (array) {
       switch (this.status) {
         case 'active':
           return this.activeTasks
