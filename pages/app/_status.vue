@@ -131,7 +131,8 @@
                         </div>
                         --->
                         <div
-                          :class="[task.done ? 'bg-indigo-500' : '', {'cursor-not-allowed' : isToggleLoading}]" 
+                          :class="[task.done ? 'bg-indigo-500' : 'border-2', {'cursor-not-allowed' : isToggleLoading}]"
+                          
                           class="rounded-full bg-white h-6 w-6 cursor-pointer flex items-center justify-center"
                           @click="toggleCompleted(task.id)"
                         >
@@ -276,12 +277,16 @@ export default {
       switch (this.$route.params.status) {
         case 'active':
           return this.activeTasks
-        case 'activeToday':
+        case 'today':
           return this.activeTasksToday
+        case 'week':
+          return this.activeTasksWeek
         case 'completed':
           return this.completedTasks
-        default:
+        case 'all':
           return this.allTasks
+        default:
+          return this.activeTasksToday
       }
     },
     isModalVisible() {
@@ -404,6 +409,7 @@ export default {
         tasks[index].done = true
         localStorage.setItem('tasks', JSON.stringify(tasks))
         this.isToggleLoading = false
+        this.$route.push('/app/today')
         alert('test')
       }
     },

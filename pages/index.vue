@@ -11,9 +11,15 @@
             <h2 class="text-2xl sm:text-3xl text-indigo-800 opacity-75 font-normal leading-tight mb-8">
               An Open source todolist application made with Laravel And Nuxt.js
             </h2>
-
             <div class="flex flex-col sm:flex-row justify-center pt-8">
-              <nuxt-link class="bg-indigo-500 no-underline hover:bg-indigo-600 text-xl text-white font-semibold px-8 py-2 rounded whitespace-no-wrap mb-2 sm:mb-0 sm:mr-2" :to="{ name: 'register' }" exact>
+              <nuxt-link 
+                class="bg-indigo-500 no-underline hover:bg-indigo-600 text-xl text-white font-semibold px-8 py-2 rounded whitespace-no-wrap mb-2 sm:mb-0 sm:mr-2" 
+                :to="{name: 'app-status', params: { status: 'today'}}" exact>Vai ai tasks
+              </nuxt-link>
+            </div>                            
+              <!--
+              <nuxt-link class="bg-indigo-500 no-underline hover:bg-indigo-600 text-xl text-white font-semibold px-8 py-2 rounded whitespace-no-wrap mb-2 sm:mb-0 sm:mr-2" 
+              :to="{ name: 'register' }" exact>
                 Register
               </nuxt-link>
 
@@ -21,6 +27,7 @@
                 Login
               </nuxt-link>
             </div>
+            -->
           </div>
         </div>
       </div>
