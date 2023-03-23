@@ -204,6 +204,28 @@ export default {
       return tasksDueToday
     },
     activeTasksWeek: function() {
+      const self = this // Assegna l'oggetto "this" a una variabile locale
+      // Calcola la data del primo giorno della settimana corrente
+      const today = new Date()
+      // Aggiungi un giorno alla data corrente per ottenere la data di domani
+      const tomorrow = new Date()
+      tomorrow.setDate(today.getDate() + 1)
+      tomorrow.setHours(0, 0, 0, 0) // imposta le ore a mezzanotte
+      const firstDayOfThisWeek = new Date(today.setDate(today.getDate() - today.getDay() + 1))
+      console.log('first week day', firstDayOfThisWeek)
+      // Calcola la data del primo giorno della settimana successiva
+      const nextWeek = new Date(today.setDate(today.getDate() + 7))
+      var firstDayOfNextWeek = new Date(nextWeek.setDate(nextWeek.getDate() - nextWeek.getDay() + 1))
+      console.log('first next week day', nextWeek)
+      // Filtra i task in base alla data di scadenza
+      let tasksDueNextWeek = self.storageTasks.filter(task => {
+        let taskDate = new Date(task.date)
+        // Verifica se il task è da fare e se la data di scadenza appartiene alla settimana successiva
+        return !task.done && taskDate >= tomorrow && taskDate < new Date(firstDayOfNextWeek.getTime() + 7 * 24 * 60 * 60 * 1000)
+      })
+      return tasksDueNextWeek
+    },
+    activeTasksWeek3: function() {
        var self = this  // Assegna l'oggetto "this" a una variabile locale
       // Calcola la data del primo giorno della settimana corrente
       var today = new Date()
@@ -233,22 +255,6 @@ export default {
         return !task.done && taskDate >= nextWeek && taskDate < new Date(nextWeek.getTime() + 7 * 24 * 60 * 60 * 1000);
       });
       return tasksDueNextWeek
-    },
-    getTasksDueNextWeekLast: function() {
-      var self = this;  // Assegna l'oggetto "this" a una variabile locale
-      // Calcola la data del primo giorno della settimana corrente
-      var today = new Date();
-      var firstDayOfThisWeek = new Date(today.setDate(today.getDate() - today.getDay() + 1));
-      // Calcola la data del primo giorno della settimana successiva
-      var nextWeek = new Date(today.setDate(today.getDate() + 7));
-      var firstDayOfNextWeek = new Date(nextWeek.setDate(nextWeek.getDate() - nextWeek.getDay() + 1));
-      // Filtra i task in base alla data di scadenza
-      var tasksDueNextWeek = self.storageTasks.filter(function(task) {
-        var taskDate = new Date(task.dueDate);
-        // Verifica se il task è da fare e se la data di scadenza appartiene alla settimana successiva
-        return !task.done && taskDate >= firstDayOfNextWeek && taskDate < new Date(firstDayOfNextWeek.getTime() + 7 * 24 * 60 * 60 * 1000);
-      });
-      return tasksDueNextWeek;
     },
     allTasks () {
       return this.storageTasks

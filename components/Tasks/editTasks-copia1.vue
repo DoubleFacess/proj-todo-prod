@@ -163,8 +163,7 @@ export default {
       let tasks = JSON.parse(localStorage.getItem('tasks')) || []
       // Find the index of the task with the given id
       let index = tasks.findIndex(task => task.id === _id)
-      this.form.date = new Date(this.form.dueDate)
-      console.log(this.form.date)
+      this.form.date = new Date()
       if (index !== -1) {
         // If a task with the given id exists, update its properties
         tasks[index].descr = this.form.descr
