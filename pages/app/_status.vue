@@ -119,14 +119,24 @@
                           <fa icon="check" class="text-white hover:text-indigo-500" />
                         </div>
                         -->
-                        <!-- Checkbox -->
+                        <!-- Checkbox
                         <div 
-                          :class="[fakeTask.is_completed ? 'bg-indigo-500' : 'border-2', {'cursor-not-allowed' : isToggleLoading}]" 
+                          :class="[filteredTasks.done ? 'bg-indigo-500' : 'border-2', {'cursor-not-allowed' : isToggleLoading}]" 
                           class="rounded-full bg-white h-6 w-6 cursor-pointer flex items-center justify-center"
                           @click="toggleCompleted(task.id)
                         ">
-                          <fa v-if="isToggleLoading" icon="spinner" :class="[fakeTask.is_completed ? 'text-white' : 'text-indigo-500']" spin />
-                          <fa v-else icon="check" class="text-white" :class="{'hover:text-indigo-500' : ! fakeTask.is_completed}" />
+                          <fa v-if="isToggleLoading" icon="spinner" :class="[task.done ? 'text-white' : 'text-indigo-500']" spin />
+                          <fa v-else icon="check" class="text-white" :class="{'hover:text-indigo-500' : ! task.done}" />
+                          {{task.done}}
+                        </div>
+                        --->
+                        <div
+                          :class="[task.done ? 'bg-indigo-500' : '', {'cursor-not-allowed' : isToggleLoading}]" 
+                          class="rounded-full bg-white h-6 w-6 cursor-pointer flex items-center justify-center"
+                          @click="toggleCompleted(task.id)"
+                        >
+                          <fa v-if="isToggleLoading" icon="spinner" :class="[task.done ? 'text-white' : 'text-indigo-500']" spin />
+                          <fa v-else icon="check" class="text-white" :class="{'hover:text-indigo-500' : !task.done}" />
                         </div>
                       </div>
                     </td>
