@@ -197,6 +197,7 @@ export default {
     this.$eventBus.$on('my-event', () => {
       this.onToggle()
     })
+    console.log('env', $nuxt.$route)
   },
   computed: {
     activeTasks () {
@@ -409,7 +410,12 @@ export default {
         tasks[index].done = true
         localStorage.setItem('tasks', JSON.stringify(tasks))
         this.isToggleLoading = false
-        this.$route.push('/app/today')
+        this.$router.push({
+          name: 'app-status',
+          params: {
+            status: 'today'
+          }
+        })
         alert('test')
       }
     },
